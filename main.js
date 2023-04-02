@@ -93,30 +93,33 @@ function generateStartState(startState) {
 }
 
 function life(initialState) {
-	const cells = initialState.data;
-	const nextStateData = JSON.parse(JSON.stringify(cells)); // deep copy
+	const prevState = initialState.data;
+	const nextStateData = JSON.parse(JSON.stringify(prevState)); // deep copy the previous state
 
 	// iterate over rows
-	for (let i = 0; i < cells.length; i++) {
+	for (let i = 0; i < prevState.length; i++) {
 		// iterate over columns
-		for (let j = 0; j < cells[i].length; j++) {
+		for (let j = 0; j < prevState[i].length; j++) {
 			let neighbors = 0;
 
-			if (i !== 0 && j !== 0) neighbors += cells[i - 1][j - 1]; // top-left
-			if (i !== 0) neighbors += cells[i - 1][j]; // top
-			if (i !== 0 && j !== COLS - 1) neighbors += cells[i - 1][j + 1]; // top-right
+			if (i !== 0 && j !== 0) neighbors += prevState[i - 1][j - 1]; // top-left
+			if (i !== 0) neighbors += prevState[i - 1][j]; // top
+			if (i !== 0 && j !== prevState[i] - 1)
+				neighbors += prevState[i - 1][j + 1]; // top-right
 
-			if (j !== 0) neighbors += cells[i][j - 1]; // left
-			if (j !== COLS - 1) neighbors += cells[i][j + 1]; // right
+			if (j !== 0) neighbors += prevState[i][j - 1]; // left
+			if (j !== prevState[i] - 1) neighbors += prevState[i][j + 1]; // right
 
-			if (i !== ROWS - 1 && j !== 0) neighbors += cells[i + 1][j - 1]; // bottom-left
-			if (i !== ROWS - 1) neighbors += cells[i + 1][j]; // bottom
-			if (i !== ROWS - 1 && j !== COLS - 1) neighbors += cells[i + 1][j + 1]; // bottom-right
+			if (i !== prevState.length - 1 && j !== 0)
+				neighbors += prevState[i + 1][j - 1]; // bottom-left
+			if (i !== prevState.length - 1) neighbors += prevState[i + 1][j]; // bottom
+			if (i !== prevState.length - 1 && j !== prevState[i] - 1)
+				neighbors += prevState[i + 1][j + 1]; // bottom-right
 
 			// check conditions for life
-			if (cells[i][j] && neighbors <= 1) nextStateData[i][j] = 0; // underpopulation
-			if (!cells[i][j] && neighbors === 3) nextStateData[i][j] = 1; // reproduction
-			if (cells[i][j] && neighbors > 3) nextStateData[i][j] = 0; // overpopulation
+			if (prevState[i][j] && neighbors <= 1) nextStateData[i][j] = 0; // underpopulation
+			if (!prevState[i][j] && neighbors === 3) nextStateData[i][j] = 1; // reproduction
+			if (prevState[i][j] && neighbors > 3) nextStateData[i][j] = 0; // overpopulation
 		}
 	}
 
