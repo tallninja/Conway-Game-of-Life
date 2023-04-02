@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+}
+
+#board {
+    width: 1200px;
+    height: 600px;
+    border: 0.5px solid rgb(156 163 175);
+    margin-top: 15px;
+    margin-left: 60px;
+    position: relative;
+}
+
+.cell {
+    border: 0.5px solid rgb(156 163 175);
+    position: absolute;
+}
+
+.alive {
+    background-color: rgb(55 65 81);
+}
+
+.dead {
+    background-color: white;
+}
